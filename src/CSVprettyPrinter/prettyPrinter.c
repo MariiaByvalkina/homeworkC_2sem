@@ -158,7 +158,7 @@ void freeTable(char*** data, int rows, int cols)
 
 //--------tests--------
 
-void testIsNumber()
+void testIsNumber(void)
 {
     assert(isNumber("123") == true);
     assert(isNumber("-45") == true);
@@ -173,7 +173,7 @@ void testIsNumber()
     assert(isNumber("+") == false);
 }
 
-void testCalcWidth()
+void testCalcWidth(void)
 {
     char*** data = malloc(sizeof(char**) * 10);
     for (int i = 0; i < 10; i++) {
@@ -197,7 +197,7 @@ void testCalcWidth()
     free(data);
 }
 
-void testPrintTable()
+void testPrintTable(void)
 {
     char*** data = malloc(sizeof(char**) * 100);
     int cols = 0;
@@ -225,7 +225,7 @@ void testPrintTable()
     freeTable(data, rows, cols);
 }
 
-void testAlignment()
+void testAlignment(void)
 {
     char*** data = malloc(sizeof(char**) * 100);
     int cols = 0;
@@ -262,7 +262,7 @@ void testAlignment()
     freeTable(data, rows, cols);
 }
 
-void runTests()
+void runTests(void)
 {
     testIsNumber();
     testCalcWidth();
