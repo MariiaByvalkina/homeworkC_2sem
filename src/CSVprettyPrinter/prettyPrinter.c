@@ -88,7 +88,7 @@ void calcWidth(char*** data, int rows, int cols, int* width) // Функция, 
 {
     for (int j = 0; j < cols; j++) {
         for (int i = 0; i < rows; i++) {
-            int len = strlen(data[i][j]);
+            int len = (int)strlen(data[i][j]);
             if (len > width[j]) {
                 width[j] = len;
             }
@@ -96,7 +96,7 @@ void calcWidth(char*** data, int rows, int cols, int* width) // Функция, 
     }
 }
 
-void printSeparator(FILE* file, int* widths, int col, char symbol)
+void printSeparator(FILE* file, const int* widths, int col, char symbol)
 {
     for (int j = 0; j < col; j++) {
         fputs("+", file);
