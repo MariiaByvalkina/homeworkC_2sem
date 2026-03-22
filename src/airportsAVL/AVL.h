@@ -5,7 +5,7 @@ typedef struct Node Node;
 
 typedef struct AVLtree AVLtree;
 
-AVLtree* createTree();
+AVLtree* createTree(void);
 
 void destroyTree(AVLtree* tree);
 
