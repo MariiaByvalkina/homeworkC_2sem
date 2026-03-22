@@ -84,14 +84,14 @@ Node* balance(Node* node)
         updateBalance(node->rightChild);
         if (node->rightChild->balance >= 0)
             return rotateLeft(node);
-        return bigRotateLeft(node);
+        return bigRotateRight(node);
     }
 
     if (node->balance == -2) {
         updateBalance(node->leftChild);
         if (node->leftChild->balance <= 0)
             return rotateRight(node);
-        return bigRotateRight(node);
+        return bigRotateLeft(node);
     }
     return node;
 }
@@ -169,9 +169,11 @@ Node* deleteNode(Node* node, char* iata, int* size)
                 (*size)--;
                 return NULL;
             } else {
-                *node = *temp;
-                free(temp);
+                free(node->name);
+                Node* current = temp;
+                free(node);
                 (*size)--;
+                return current;
             }
         } else {
             Node* temp = findMin(node->rightChild);
@@ -199,6 +201,22 @@ void saveToFile(Node* node, FILE* file)
     saveToFile(node->leftChild, file);
     fprintf(file, "%s:%s\n", node->iata, node->name);
     saveToFile(node->rightChild, file);
+}
+
+void saveTree(AVLtree* tree, const char* filename)
+{
+    if (tree == NULL) {
+        return;
+    }
+
+    FILE* file = fopen(filename, "w");
+    if (file == NULL) {
+        printf("Ошибка записи файла");
+        return;
+    }
+
+    saveToFile(tree->root, file);
+    fclose(file);
 }
 
 void freeTree(Node* node)
@@ -235,4 +253,46 @@ void readFromFile(AVLtree* tree, const char* filename)
 
     fclose(file);
     printf("Загружено %d аэропортов. Система готова к работе.\n", tree->size);
+}
+
+int getTreeSize(AVLtree* tree)
+{
+    return tree ? tree->size : 0;
+}
+
+void addAirport(AVLtree* tree, char* iata, char* name)
+{
+    if (tree != NULL) {
+        tree->root = insert(tree->root, iata, name, &tree->size);
+    }
+}
+
+void removeNode(AVLtree* tree, char* iata)
+{
+    if (tree != NULL) {
+        tree->root = deleteNode(tree->root, iata, &tree->size);
+    }
+}
+
+void destroyTree(AVLtree* tree)
+{
+    if (tree != NULL) {
+        freeTree(tree->root);
+        free(tree);
+    }
+}
+
+char* getName(Node* node)
+{
+    return node ? node->name : NULL;
+}
+
+char* getIata(Node* node)
+{
+    return node ? node->iata : NULL;
+}
+
+Node* getRoot(AVLtree* tree)
+{
+    return tree ? tree->root : NULL;
 }
