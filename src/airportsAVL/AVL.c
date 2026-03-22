@@ -16,7 +16,7 @@ typedef struct AVLtree {
     int size;
 } AVLtree;
 
-AVLtree* createTree()
+AVLtree* createTree(void)
 {
     return calloc(1, sizeof(AVLtree));
 }
@@ -100,7 +100,8 @@ Node* insert(Node* node, char* iata, char* name, int* size)
 {
     if (node == NULL) {
         Node* newNode = calloc(1, sizeof(Node));
-        strcpy(newNode->iata, iata);
+        strncpy(newNode->iata, iata, 4);
+        newNode->iata[4] = '\0';
         newNode->name = strdup(name);
         (*size)++;
         return newNode;
@@ -177,7 +178,8 @@ Node* deleteNode(Node* node, char* iata, int* size)
             }
         } else {
             Node* temp = findMin(node->rightChild);
-            strcpy(node->iata, temp->iata);
+            strncpy(node->iata, iata, 4);
+            node->iata[4] = '\0';
             free(node->name);
             node->name = strdup(temp->name);
             node->rightChild = deleteNode(node->rightChild, temp->iata, size);
