@@ -3,15 +3,15 @@
 #include <stdio.h>
 #include <string.h>
 
-void assertAirport(AVLtree* tree, char* iata, char* expected_name)
+void assertAirport(AVLtree* tree, char* iata, char* name)
 {
     Node* root = getRoot(tree);
     Node* node = find(root, iata);
     assert(node != NULL);
-    assert(strcmp(getName(node), expected_name) == 0);
+    assert(strcmp(getName(node), name) == 0);
 }
 
-void testBasic()
+void testBasic(void)
 {
     AVLtree* tree = createTree();
 
@@ -29,7 +29,7 @@ void testBasic()
     destroyTree(tree);
 }
 
-void testBalanceRotations()
+void testBalanceRotations(void)
 {
     AVLtree* tree = createTree();
     addAirport(tree, "CCC", "C");
@@ -45,7 +45,7 @@ void testBalanceRotations()
     destroyTree(tree);
 }
 
-void testDuplicates()
+void testDuplicates(void)
 {
 
     AVLtree* tree = createTree();
@@ -61,7 +61,7 @@ void testDuplicates()
     destroyTree(tree);
 }
 
-void testDeletion()
+void testDeletion(void)
 {
     AVLtree* tree = createTree();
 
@@ -88,7 +88,7 @@ void testDeletion()
     destroyTree(tree);
 }
 
-void testLargeData()
+void testLargeData(void)
 {
     AVLtree* tree = createTree();
     char code[10];
@@ -114,7 +114,7 @@ void testLargeData()
     destroyTree(tree);
 }
 
-int main()
+int main(void)
 {
 
     testBasic();
