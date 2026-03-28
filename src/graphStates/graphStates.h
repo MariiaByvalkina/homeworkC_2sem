@@ -3,7 +3,7 @@
 typedef struct Graph Graph;
 typedef struct priorityQueue priorityQueue;
 
-Graph* createGraph();
+Graph* createGraph(void);
 void addEdge(Graph* graph, int start, int finish, int dist);
 void freeGraph(Graph* graph);
 priorityQueue* createQueue(int size);
