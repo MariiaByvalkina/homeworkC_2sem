@@ -15,17 +15,17 @@ typedef struct Graph {
     int size;
 } Graph;
 
-typedef struct queueNode {
+typedef struct QueueNode {
     int vertex;
     int dist;
     int state;
-} queueNode;
+} QueueNode;
 
-typedef struct priorityQueue {
-    queueNode* elements;
+typedef struct PriorityQueue {
+    QueueNode* elements;
     int size;
     int capacity;
-} priorityQueue;
+} PriorityQueue;
 
 Graph* createGraph(int n)
 {
@@ -58,38 +58,38 @@ void freeGraph(Graph* graph)
     free(graph->lists);
     free(graph);
 }
-priorityQueue* createQueue(int capacity)
+PriorityQueue* createQueue(int capacity)
 {
-    priorityQueue* queue = malloc(sizeof(priorityQueue));
+    PriorityQueue* queue = malloc(sizeof(PriorityQueue));
     queue->size = 0;
     queue->capacity = capacity;
-    queue->elements = malloc(capacity * sizeof(queueNode));
+    queue->elements = malloc(capacity * sizeof(QueueNode));
     return queue;
 }
 
-void freeQueue(priorityQueue* queue)
+void freeQueue(PriorityQueue* queue)
 {
     free(queue->elements);
     free(queue);
 }
 
-int getSize(priorityQueue* queue)
+int getSize(PriorityQueue* queue)
 {
     return queue->size;
 }
 
-bool isEmpty(priorityQueue* queue)
+bool isEmpty(PriorityQueue* queue)
 {
     return (queue->size == 0);
 }
 
-void heapifyUp(priorityQueue* queue, int index)
+void heapifyUp(PriorityQueue* queue, int index)
 {
     while (index > 0) {
         int parent = (index - 1) / 2;
 
         if (queue->elements[index].dist < queue->elements[parent].dist) {
-            queueNode temp = queue->elements[parent];
+            QueueNode temp = queue->elements[parent];
             queue->elements[parent] = queue->elements[index];
             queue->elements[index] = temp;
 
@@ -100,7 +100,7 @@ void heapifyUp(priorityQueue* queue, int index)
     }
 }
 
-void push(priorityQueue* queue, int vertex, int dist, int state)
+void push(PriorityQueue* queue, int vertex, int dist, int state)
 {
     int size = queue->size;
 
@@ -113,7 +113,7 @@ void push(priorityQueue* queue, int vertex, int dist, int state)
     queue->size++;
 }
 
-void heapifyDown(priorityQueue* queue, int index)
+void heapifyDown(PriorityQueue* queue, int index)
 {
     while (1) {
         int left = 2 * index + 1;
@@ -129,7 +129,7 @@ void heapifyDown(priorityQueue* queue, int index)
         }
 
         if (small != index) {
-            queueNode temp = queue->elements[small];
+            QueueNode temp = queue->elements[small];
             queue->elements[small] = queue->elements[index];
             queue->elements[index] = temp;
 
@@ -143,9 +143,9 @@ void heapifyDown(priorityQueue* queue, int index)
     }
 }
 
-queueNode pop(priorityQueue* queue)
+QueueNode pop(PriorityQueue* queue)
 {
-    queueNode upper = queue->elements[0];
+    QueueNode upper = queue->elements[0];
 
     queue->size--;
     queue->elements[0] = queue->elements[queue->size];
@@ -157,7 +157,7 @@ queueNode pop(priorityQueue* queue)
 
 char* modifiedDijkstra(Graph* graph, int* capitals, int n, int k)
 {
-    priorityQueue* queue = createQueue(graph->size);
+    PriorityQueue* queue = createQueue(graph->size);
 
     int* state = calloc(n + 1, sizeof(int));
     int* dist = malloc(sizeof(int) * (n + 1));
@@ -172,7 +172,7 @@ char* modifiedDijkstra(Graph* graph, int* capitals, int n, int k)
     }
 
     while (!isEmpty(queue)) {
-        queueNode current = pop(queue);
+        QueueNode current = pop(queue);
 
         if (current.dist > dist[current.vertex]) {
             continue;
@@ -197,15 +197,16 @@ char* modifiedDijkstra(Graph* graph, int* capitals, int n, int k)
 
     char* res = malloc(100 * sizeof(char));
     res[0] = 0;
+    int pos = 0;
 
     for (int i = 1; i <= k; i++) {
-        sprintf(res + strlen(res), "Государство %d:", i);
+        pos += sprintf(res + strlen(res), "Государство %d:", i);
         for (int j = 1; j <= n; j++) {
             if (state[j] == i) {
-                sprintf(res + strlen(res), " %d", j);
+                pos += sprintf(res + strlen(res), " %d", j);
             }
         }
-        strcat(res, "\n");
+        pos += sprintf(res + pos, "\n");
     }
 
     free(state);
