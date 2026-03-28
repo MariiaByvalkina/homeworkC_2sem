@@ -27,11 +27,11 @@ typedef struct priorityQueue {
     int capacity;
 } priorityQueue;
 
-Graph* createGraph(void)
+Graph* createGraph(int n)
 {
     Graph* graph = malloc(sizeof(Graph));
-    graph->size = 0;
-    graph->lists = malloc(sizeof(Edge*));
+    graph->size = n + 1;
+    graph->lists = calloc(n + 1, sizeof(Edge*));
     return graph;
 }
 
@@ -45,7 +45,7 @@ void addEdge(Graph* graph, int start, int finish, int dist)
     graph->lists[start] = newEdge;
 }
 
-void graphTree(Graph* graph)
+void freeGraph(Graph* graph)
 {
     for (int i = 0; i < graph->size; i++) {
         Edge* current = graph->lists[i];
@@ -58,12 +58,12 @@ void graphTree(Graph* graph)
     free(graph->lists);
     free(graph);
 }
-priorityQueue* createQueue(int size)
+priorityQueue* createQueue(int capacity)
 {
-    priorityQueue* queue = malloc(queue->capacity * sizeof(priorityQueue));
-    queue->size = size;
-    queue->capacity = 100;
-    queue->elements = malloc(sizeof(queueNode));
+    priorityQueue* queue = malloc(sizeof(priorityQueue));
+    queue->size = 0;
+    queue->capacity = capacity;
+    queue->elements = malloc(capacity * sizeof(queueNode));
     return queue;
 }
 
@@ -206,10 +206,11 @@ char* modifiedDijkstra(Graph* graph, int* capitals, int n, int k)
             }
         }
         strcat(res, "\n");
-        return res;
     }
 
     free(state);
     free(dist);
     freeQueue(queue);
+
+    return res;
 }
