@@ -43,7 +43,7 @@ void testTwoCityOneCapital(void)
 
     char* res = modifiedDijkstra(graph, capitals, 2, 1);
 
-    assert(strcmp(res, "Госудаство 1: 1 2\n"));
+    assert(strcmp(res, "Госудаство 1: 1 2\n") == 0);
 
     freeGraph(graph);
 }
