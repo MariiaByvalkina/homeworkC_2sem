@@ -1,5 +1,6 @@
 #include "graphStates.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void readFile(const char* filename)
 {
@@ -7,6 +8,7 @@ void readFile(const char* filename)
 
     if (file == NULL) {
         printf("Ошибка чтения файла");
+        return;
     }
 
     int n = 0;
@@ -14,18 +16,18 @@ void readFile(const char* filename)
 
     fscanf(file, "%d %d", &n, &m);
 
-    Graph* graph = createGraph();
+    Graph* graph = createGraph(n);
 
-    for (int i = 0; i < m; i++) {
+    for (int p = 0; p < m; p++) {
         int i = 0;
         int j = 0;
         int len = 0;
-        fscanf("%d %d %d", &i, &j, &len);
+        fscanf(file, "%d %d %d", &i, &j, &len);
         addEdge(graph, i, j, len);
     }
 
     int k = 0;
-    fscanf(filename, "%d", &k);
+    fscanf(file, "%d", &k);
 
     int* capitals = malloc(k * sizeof(int));
 
@@ -38,7 +40,7 @@ void readFile(const char* filename)
     char* res = modifiedDijkstra(graph, capitals, n, k);
     printf("%s", res);
 
-    graphFree(graph);
+    freeGraph(graph);
     free(capitals);
 }
 
