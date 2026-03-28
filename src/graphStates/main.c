@@ -42,7 +42,7 @@ void readFile(const char* filename)
     free(capitals);
 }
 
-int main()
+int main(void)
 {
     readFile("input.txt");
     return 0;
