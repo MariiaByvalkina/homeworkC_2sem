@@ -2,10 +2,11 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-void testOneCity()
+void testOneCity(void)
 {
-    Graph* graph = createGraph();
+    Graph* graph = createGraph(1);
 
     int capitals[] = { 1 };
 
@@ -16,9 +17,9 @@ void testOneCity()
     freeGraph(graph);
 }
 
-void testTwoCapitals()
+void testTwoCapitals(void)
 {
-    Graph* graph = createGraph();
+    Graph* graph = createGraph(2);
     int capitals[] = { 1, 2 };
 
     addEdge(graph, 1, 2, 10);
@@ -28,13 +29,12 @@ void testTwoCapitals()
 
     assert(strcmp(res, "Госудаство 1: 1\nГосудаство 2: 2\n") == 0);
 
-    free(graph);
     freeGraph(graph);
 }
 
-void testTwoCityOneCapital()
+void testTwoCityOneCapital(void)
 {
-    Graph* graph = createGraph();
+    Graph* graph = createGraph(2);
 
     int capitals[] = { 1 };
 
@@ -45,13 +45,12 @@ void testTwoCityOneCapital()
 
     assert(strcmp(res, "Госудаство 1: 1 2\n"));
 
-    free(graph);
     freeGraph(graph);
 }
 
-void testLineCities()
+void testLineCities(void)
 {
-    Graph* graph = createGraph();
+    Graph* graph = createGraph(3);
     int capitals[] = { 1, 3 };
 
     addEdge(graph, 1, 2, 5);
@@ -67,9 +66,9 @@ void testLineCities()
     freeGraph(graph);
 }
 
-void testEqualDistance()
+void testEqualDistance(void)
 {
-    Graph* graph = createGraph();
+    Graph* graph = createGraph(3);
     int capitals[] = { 1, 3 };
 
     addEdge(graph, 1, 2, 5);
@@ -83,4 +82,19 @@ void testEqualDistance()
 
     free(result);
     freeGraph(graph);
+}
+
+void runAllTests(void)
+{
+    testOneCity();
+    testTwoCapitals();
+    testTwoCityOneCapital();
+    testLineCities();
+    testEqualDistance();
+}
+
+int main(void)
+{
+    runAllTests();
+    return 0;
 }
